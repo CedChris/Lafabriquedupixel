@@ -13,19 +13,10 @@
         <a href="/#contact">Contact</a>
         <a href="/mentions-legales">Mentions légales</a>
       </nav>
-
-      <!-- Bloc droit : coordonnées -->
-      <address class="address">
-        <strong>La Fabrique du Pixel Moon</strong><br />
-        42, rue des Lunaires<br />
-        75000 Paris<br />
-        <a href="mailto:contact@pixmoon.fr">contact@pixmoon.fr</a><br />
-        <a href="tel:+33123456789">+33 1&nbsp;23 45 67 89</a>
-      </address>
     </div>
 
     <div class="copyright">
-      © {{ new Date().getFullYear() }} — La Fabrique du Pixel Moon Entreprise. Tous droits réservés.
+      © {{ new Date().getFullYear() }} — La Fabrique du Pixel . Tous droits réservés.
     </div>
   </footer>
 </template>

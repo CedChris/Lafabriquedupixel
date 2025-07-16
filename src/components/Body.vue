@@ -40,7 +40,13 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.listings { padding: 2rem 1rem; }
+.listings { 
+  padding: 2rem 1rem; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 h2       { margin-bottom: 1rem; }
 
 .state   { font-style: italic; }
