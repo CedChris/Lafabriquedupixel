@@ -1,18 +1,22 @@
-import fetch from 'node-fetch';
+const fetch = require("node-fetch");
 
-export async function handler(event, context) {
-  const query = event.queryStringParameters.q || 'ordinateur';
-  const clientId = process.env.EBAY_CLIENT_ID;
-  const response = await fetch(`https://api.ebay.com/buy/browse/v1/item_summary/search?q=${encodeURIComponent(query)}&limit=10`, {
-    headers: {
-      'Authorization': `Bearer ${process.env.EBAY_ACCESS_TOKEN}`,
-      'Content-Type': 'application/json',
+exports.handler = async () => {
+  const EBAY_ACCESS_TOKEN = process.env.EBAY_ACCESS_TOKEN; // à stocker sur Netlify
+
+  const res = await fetch(
+    'https://api.ebay.com/buy/browse/v1/item_summary/search?seller_username=lafabriquedupixel',
+    {
+      headers: {
+        'Authorization': `Bearer ${EBAY_ACCESS_TOKEN}`,
+        'Content-Type': 'application/json'
+      }
     }
-  });
+  );
 
-  const data = await response.json();
+  const data = await res.json();
+
   return {
     statusCode: 200,
-    body: JSON.stringify(data)
+    body: JSON.stringify(data.itemSummaries || [])
   };
-}
+};

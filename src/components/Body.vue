@@ -1,17 +1,15 @@
 <template>
   <section class="listings">
-    <h2>Mes annonces eBay</h2>
+    <h2 class="title">Mes annonces eBay</h2>
 
-    <div v-if="loading" class="state">Chargement…</div>
-    <div v-else-if="error" class="state error">{{ error }}</div>
-    <div v-else-if="items.length === 0" class="state">Aucune annonce.</div>
-
-    <ul v-else class="grid">
+    <ul class="grid">
       <li v-for="item in items" :key="item.itemId" class="card">
-        <a :href="item.itemWebUrl" target="_blank" rel="noopener">
+        <a :href="item.itemWebUrl" target="_blank" rel="noopener noreferrer">
           <img :src="item.image.imageUrl" :alt="item.title" />
-          <h3>{{ item.title }}</h3>
-          <p class="price">{{ item.price.value }} {{ item.price.currency }}</p>
+          <div class="info">
+            <h3>{{ item.title }}</h3>
+            <p class="price">{{ item.price.value }} {{ item.price.currency }}</p>
+          </div>
         </a>
       </li>
     </ul>
@@ -19,47 +17,85 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-
-const items   = ref([])
-const loading = ref(true)
-const error   = ref(null)
-
-onMounted(async () => {
-  try {
-    const res  = await fetch('/api/ebay?limit=20')
-    if (!res.ok) throw new Error(`Erreur ${res.status}`)
-    const data = await res.json()
-    items.value = data
-  } catch (err) {
-    error.value = err.message
-  } finally {
-    loading.value = false
+const items = [
+  {
+    itemId: "1234567890",
+    title: "Carte graphique RTX 3060",
+    image: {
+      imageUrl: "https://i.ebayimg.com/images/g/XXX.jpg"
+    },
+    price: {
+      value: "299.00",
+      currency: "EUR"
+    },
+    itemWebUrl: "https://www.ebay.fr/itm/1234567890"
+  },
+  {
+    itemId: "0987654321",
+    title: "Écran 144Hz 24 pouces",
+    image: {
+      imageUrl: "https://i.ebayimg.com/images/g/YYY.jpg"
+    },
+    price: {
+      value: "159.00",
+      currency: "EUR"
+    },
+    itemWebUrl: "https://www.ebay.fr/itm/0987654321"
   }
-})
+]
 </script>
 
 <style scoped>
-.listings { 
-  padding: 2rem 1rem; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.listings {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
 }
-h2       { margin-bottom: 1rem; }
 
-.state   { font-style: italic; }
-.error   { color: #d33; }
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
 
-.grid    { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); }
+.grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  list-style: none;
+  padding: 0;
+}
 
-.card    { border: 1px solid #ddd; border-radius: 6px; overflow: hidden; transition: box-shadow .2s; }
-.card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+.card {
+  background-color: #fff;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
 
-.card img { width: 100%; height: 160px; object-fit: cover; }
+.card:hover {
+  transform: translateY(-5px);
+}
 
-.card h3  { font-size: 0.95rem; margin: 0.5rem 0.75rem; line-height: 1.3; }
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
 
-.price    { margin: 0 0.75rem 0.75rem; font-weight: 600; color: #2a7; }
+.card .info {
+  padding: 1rem;
+  text-align: center;
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.card .price {
+  font-weight: bold;
+  color: #2b8a3e;
+}
 </style>
